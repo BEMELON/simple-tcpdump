@@ -1,20 +1,27 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
-TARGET = simple_tcpdump
-SOURCE = simple_tcpdump.c
+TARGET1 = simple_tcpdump
+TARGET2 = bpf_tcpdump
+SOURCE1 = simple_tcpdump.c
+SOURCE2 = bpf_tcpdump.c
 
-all: $(TARGET)
+all: $(TARGET1) $(TARGET2)
 
-$(TARGET): $(SOURCE)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCE)
+$(TARGET1): $(SOURCE1)
+	$(CC) $(CFLAGS) -o $(TARGET1) $(SOURCE1)
+
+$(TARGET2): $(SOURCE2)
+	$(CC) $(CFLAGS) -o $(TARGET2) $(SOURCE2)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET1) $(TARGET2)
 
-install: $(TARGET)
-	sudo cp $(TARGET) /usr/local/bin/
+install: $(TARGET1) $(TARGET2)
+	sudo cp $(TARGET1) /usr/local/bin/
+	sudo cp $(TARGET2) /usr/local/bin/
 
 uninstall:
-	sudo rm -f /usr/local/bin/$(TARGET)
+	sudo rm -f /usr/local/bin/$(TARGET1)
+	sudo rm -f /usr/local/bin/$(TARGET2)
 
 .PHONY: all clean install uninstall
